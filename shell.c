@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * main - entry point of the simple shell
@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 			}
 			return (EXIT_FAILURE);
 		}
-		inf->readfd = fd;
+		info->readfd = fd;
 	}
 	populate_env_list(info);
 	read_hist(info);

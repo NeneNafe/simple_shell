@@ -51,7 +51,7 @@ void set_info(info_t *info, char **av)
  */
 void free_info(info_t *info, int all)
 {
-	ffree(info->av);
+	free_str(info->av);
 	info->av = NULL;
 	info->path = NULL;
 	if (all)
@@ -64,9 +64,9 @@ void free_info(info_t *info, int all)
 			free_list(&(info->history));
 		if (info->alias)
 			free_list(&(info->alias));
-		ffree(info->environ);
+		free_str(info->environ);
 		info->environ = NULL;
-		bfree((void **)info->cmd_buf);
+		be_free((void **)info->cmd_buf);
 		if (info->readfd > 2)
 			close(info->readfd);
 		_putchar(BUF_FLASH);
