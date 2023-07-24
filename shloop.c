@@ -77,7 +77,7 @@ int find_builtin(info_t *info)
  * @info: struct info
  * Return: Nothing
  */
-voide find_cmd(info_t *info)
+void find_cmd(info_t *info)
 {
 	char *path = NULL;
 	int x, y;
