@@ -117,7 +117,7 @@ void find_cmd(info_t *info)
  * @info: Struct info
  * Return: Nothing.
  */
-voide for_cmd(info_t *info)
+void for_cmd(info_t *info)
 {
 	pid_t child_pid;
 
