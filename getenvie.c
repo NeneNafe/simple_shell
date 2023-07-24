@@ -53,7 +53,7 @@ int our_unsetenv(info_t *info, char *var)
  * @value: the variable value
  * Return: Always 0.
  */
-int our_setenv(info_t *info, char *var, char *value)
+int _setenv(info_t *info, char *var, char *value)
 {
 	char *buff = NULL;
 	list_t *node;
