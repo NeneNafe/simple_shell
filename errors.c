@@ -73,7 +73,7 @@ int _printfd(char *s, int fd)
 		return (0);
 	while (*s)
 	{
-		j += _printfd(*s++, fd);
+		j += put_fd(*s++, fd);
 	}
 	return (j);
 }

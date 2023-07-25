@@ -18,7 +18,7 @@ char **strtow(char *str, char *del)
 	if (!del)
 		del = "";
 	for  (a = 0; str[a] != '\0'; a++)
-		if (!_delimeter(str[a], del) && (_delimeter(str[a + 1], del) || !str[a + 1]))
+		if (!delimeter(str[a], del) && (delimeter(str[a + 1], del) || !str[a + 1]))
 			numwrds++;
 	if (numwrds == 0)
 		return (NULL);
@@ -27,10 +27,10 @@ char **strtow(char *str, char *del)
 		return (NULL);
 	for (a = 0, b = 0; b < numwrds; b++)
 	{
-		while (_delimeter(str[a], del))
+		while (delimeter(str[a], del))
 			a++;
 		x = 0;
-		while (!_delimeter(str[a + x], del) && str[a + x])
+		while (!delimeter(str[a + x], del) && str[a + x])
 			x++;
 		s[b] = malloc((x + 1) * sizeof(char));
 		if (!s[b])
@@ -58,8 +58,8 @@ char **strtow(char *str, char *del)
 
 char **strtow2(char *s, char delim)
 {
-	int a, b, x, z, numwrds = 0;
-	char **ptr;
+	int a, b, c, d, numwrds = 0;
+	char **str;
 
 	if (s == NULL || s[0] == 0)
 		return (NULL);
@@ -69,28 +69,28 @@ char **strtow2(char *s, char delim)
 			numwrds++;
 	if  (numwrds == 0)
 		return (NULL);
-	ptr = malloc((1 + numwrds) * sizeof(char *));
-	if (!ptr)
+	str = malloc((1 + numwrds) * sizeof(char *));
+	if (!str)
 		return (NULL);
-	for (a = 0; b = 0; b < numwrds; b++)
+	for (a = 0, b = 0; b < numwrds; b++)
 	{
 		while (s[a] == delim && s[a] != delim)
 			a++;
-		x = 0;
-		while (s[a + x] != delim && s[a + x] && s[a + x] != delim)
-			x++;
-		ptr[b] = malloc((x + 1) * sizeof(char));
-		if (!ptr[b])
+		c = 0;
+		while (s[a + c] != delim && s[a + c] && s[a + c] != delim)
+			c++;
+		str[b] = malloc((c + 1) * sizeof(char));
+		if (!str[b])
 		{
-			for (x = 0; x < b; x++)
-				free(ptr);
-			return (null);
+			for (c = 0; c < b; c++)
+				free(str[c]);
+			free(str);
+			return (NULL);
 		}
-		for (z = 0; z < x; z++)
-			ptr[b][z] = s[a++];
-		ptr[b][z] = 0;
+		for (d = 0; d < c; d++)
+			str[b][d] = s[a++];
+		str[b][d] = 0;
 	}
-	ptr[b] = NULL;
-	return (ptr);
+	str[b] = NULL;
+	return (str);
 }
-

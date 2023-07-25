@@ -9,7 +9,7 @@ void clear_info(info_t *info)
 	info->arg = NULL;
 	info->av = NULL;
 	info->path = NULL;
-	inf->ac = 0;
+	info->ac = 0;
 }
 
 /**
@@ -39,8 +39,8 @@ void set_info(info_t *info, char **av)
 			;
 		info->ac = j;
 
-		replace_alias(info);
-		replace_vars(info);
+		replaces_alias(info);
+		replaces_vars(info);
 	}
 }
 
@@ -60,8 +60,8 @@ void free_info(info_t *info, int all)
 			free(info->arg);
 		if (info->env)
 			free_list(&(info->env));
-		if (info->history)
-			free_list(&(info->history));
+		if (info->his)
+			free_list(&(info->his));
 		if (info->alias)
 			free_list(&(info->alias));
 		free_str(info->environ);
@@ -69,6 +69,6 @@ void free_info(info_t *info, int all)
 		be_free((void **)info->cmd_buf);
 		if (info->readfd > 2)
 			close(info->readfd);
-		_putchar(BUF_FLASH);
+		_putchar(BUF_FLUSH);
 	}
 }

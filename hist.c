@@ -11,7 +11,7 @@ char *get_hist_file(info_t *info)
 {
 	char *buf, *dir;
 
-	dir = more_getenv(info, "HOME=");
+	dir = our_getenv(info, "HOME=");
 	if (!dir)
 		return (NULL);
 	buf = malloc(sizeof(char) * (_strlen(dir) + _strlen(HIST_FILE) + 2));
@@ -43,12 +43,12 @@ int write_hist(info_t *info)
 	free(filename);
 	if (fd == -1)
 		return (-1);
-	for (node = info->history; node; node = node->next)
+	for (node = info->his; node; node = node->next)
 	{
-		_nputsfd(node->str, fd);
-		our_putfd('\n', fd);
+		_printfd(node->str, fd);
+		put_fd('\n', fd);
 	}
-	our_putfd(BUF_FLUSH, fd);
+	put_fd(BUF_FLUSH, fd);
 	close(fd);
 	return (1);
 }
@@ -97,7 +97,7 @@ int read_hist(info_t *info)
 	free(buf);
 	info->histcount = linecount;
 	while (info->histcount-- >= HIST_MAX)
-		delete_node(&(info->history), 0);
+		delete_node(&(info->his), 0);
 	renumber_hist(info);
 	return (info->histcount);
 }
@@ -114,11 +114,11 @@ int build_hist_list(info_t *info, char *buf, int linecount)
 {
 	list_t *node = NULL;
 
-	if (info->history)
-		node = info->history;
+	if (info->his)
+		node = info->his;
 	add_node_end(&node, buf, linecount);
-	if (!info->history)
-		info->history = node;
+	if (!info->his)
+		info->his = node;
 	return (0);
 }
 
@@ -131,7 +131,7 @@ int build_hist_list(info_t *info, char *buf, int linecount)
 
 int renumber_hist(info_t *info)
 {
-	list_t *node = info->history;
+	list_t *node = info->his;
 	int j = 0;
 
 	while (node)
@@ -141,4 +141,3 @@ int renumber_hist(info_t *info)
 	}
 	return (info->histcount = j);
 }
-

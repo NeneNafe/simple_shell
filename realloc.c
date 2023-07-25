@@ -62,5 +62,3 @@ void *our_realloc(void *ptr, unsigned int old, unsigned int newsize)
 	free(ptr);
 	return (p);
 }
-
-

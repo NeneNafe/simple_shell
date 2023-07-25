@@ -9,7 +9,7 @@ char **_getenvie(info_t *info)
 {
 	if (!info->environ || info->envi_chngd)
 	{
-		info->environ - list_to_strings(info->env);
+		info->environ = list_to_strings(info->env);
 		info->envi_chngd = 0;
 	}
 
@@ -32,10 +32,10 @@ int our_unsetenv(info_t *info, char *var)
 		return (0);
 	while (node)
 	{
-		p = starts_with(node->str, var);
+		ptr = starts_with(node->str, var);
 		if (ptr && *ptr == '=')
 		{
-			info->envi_chngd = delete_node_at_index(&(info->env), j);
+			info->envi_chngd = delete_node(&(info->env), j);
 			j = 0;
 			node = info->env;
 			continue;
@@ -43,7 +43,7 @@ int our_unsetenv(info_t *info, char *var)
 		node = node->next;
 		j++;
 	}
-	return (info->env_chngd);
+	return (info->envi_chngd);
 }
 
 /**
@@ -70,11 +70,11 @@ int _setenv(info_t *info, char *var, char *value)
 	node = info->env;
 	while (node)
 	{
-		ptr = starts_with(node->s, var);
+		ptr = starts_with(node->str, var);
 		if (ptr && *ptr == '=')
 		{
-			free(node->s);
-			node->s = buff;
+			free(node->str);
+			node->str = buff;
 			info->envi_chngd = 1;
 			return (0);
 		}

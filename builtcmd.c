@@ -7,7 +7,7 @@
  */
 int our_hist(info_t *info)
 {
-	our_list(info->history);
+	printlist(info->his);
 	return (0);
 }
 
@@ -17,17 +17,17 @@ int our_hist(info_t *info)
  * @s: stirng alias to be used
  * Return: Success 0, 1 on error.
  */
-int sets_alias(info_t *info, char s)
+int sets_alias(info_t *info, char *s)
 {
 	char *ptr;
 
 	ptr = our_strchr(s, '=');
-	if (!p)
+	if (!ptr)
 		return (1);
 	if (!*++ptr)
 		return (our_alias(info, s));
 	our_alias(info, s);
-	return (add_note_end(&(info->alias), s, 0) == null);
+	return (add_node_end(&(info->alias), s, 0) == NULL);
 }
 
 /**
@@ -42,12 +42,12 @@ int our_alias(info_t *info, char *s)
 	int ret;
 
 	ptr = our_strchr(s, '=');
-	if (!p)
+	if (!ptr)
 		return (1);
 	x = *ptr;
 	*ptr = 0;
-	ret = delete_node_at_index(&(info->alias),
-		get_node_index(info->alias, node_starts_with(info->alias, s, -1)));
+	ret = delete_node(&(info->alias),
+		get_node(info->alias, node_start(info->alias, s, -1)));
 	*ptr = x;
 	return (ret);
 }
@@ -63,8 +63,8 @@ int prints_alias(list_t *node)
 
 	if (node)
 	{
-		ptr = our_strchr(node->s, '=');
-		for (j = node->s; j <= ptr; j++)
+		ptr = our_strchr(node->str, '=');
+		for (j = node->str; j <= ptr; j++)
 			_cputchar(*j);
 		_cputchar('\'');
 		_puts(ptr + 1);
@@ -101,7 +101,7 @@ int mim_alias(info_t *info)
 		if (ptr)
 			sets_alias(info, info->av[m]);
 		else
-			prints_alias(node_starts_with(info->alias, info->av[m], '='));
+			prints_alias(node_start(info->alias, info->av[m], '='));
 	}
 	return (0);
 }

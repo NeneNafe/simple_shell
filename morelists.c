@@ -13,7 +13,7 @@ size_t list_len(const list_t *h)
 
 	while (h)
 	{
-		f = h->next;
+		h = h->next;
 		j++;
 	}
 	return (j);
@@ -38,7 +38,7 @@ char **list_to_strings(list_t *head)
 	strs = malloc(sizeof(char *) * (i + 1));
 	if (!strs)
 		return (NULL);
-	for (i = 0; node; node = node->next; i++)
+	for (i = 0; node; node = node->next, i++)
 	{
 		s = malloc(_strlen(node->str) + 1);
 
@@ -70,7 +70,7 @@ size_t printlist(const list_t *h)
 
 	while (h)
 	{
-		_puts(clone_number(h->num, 10, 0));
+		_puts(convert_num(h->num, 10, 0));
 		_putchar(':');
 		_putchar(' ');
 		_puts(h->str ? h->str : "(nil)");
@@ -82,7 +82,7 @@ size_t printlist(const list_t *h)
 }
 
 /**
- * node_starts - Returns node whose string starts with prefix.
+ * node_start - Returns node whose string starts with prefix.
  * @node: Pointer to the list head.
  * @prefix: String to match.
  * @c: The next character after prefix to match.
@@ -90,7 +90,7 @@ size_t printlist(const list_t *h)
  * Return: Match node or NULL.
  */
 
-list_t *node_starts(list_t *node, char *prefix, char c)
+list_t *node_start(list_t *node, char *prefix, char c)
 {
 	char *ptr = NULL;
 

@@ -65,10 +65,10 @@ ssize_t get_input(info_t *info)
 		j = i;
 		ptr = buf + i;
 
-		_checkChain(info, buf, &j, i, len);
+		check_chain(info, buf, &j, i, len);
 		while (j < len)
 		{
-			if (_isChain(info, buf, &j))
+			if (is_chain(info, buf, &j))
 				break;
 			j++;
 		}
@@ -132,7 +132,7 @@ int get_getline(info_t *info, char **ptr, size_t *length)
 	if (r == -1 || (r == 0 && len == 0))
 		return (-1);
 
-	c = _strchr(buf + i, '\n');
+	c = our_strchr(buf + i, '\n');
 	k = c ? 1 + (unsigned int)(c - buf) : len;
 	new_p = our_realloc(p, str, str ? str + k : k + 1);
 	if (!new_p) /* MALLOC FAILURE */
@@ -146,7 +146,7 @@ int get_getline(info_t *info, char **ptr, size_t *length)
 	i = k;
 	p = new_p;
 
-	if (lenght)
+	if (length)
 		*length = str;
 	*ptr = p;
 	return (str);

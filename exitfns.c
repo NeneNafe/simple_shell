@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- * _strcpy - copies a string
+ * _strncpy - copies a string
  * @des: the destination where the str is copied
  * @source: the main source if the str
  * @n: the n characters to be copied
  * Return: Success.
  */
-char *_strcpy(char *des, char *source, int n)
+char *_strncpy(char *des, char *source, int n)
 {
 	int j, k;
 	char *str = des;

@@ -53,9 +53,9 @@ int find_builtin(info_t *info)
 	builtin_table builtint[] = {
 		{"exit", our_exit},
 		{"env", our_env},
-		{"help", our_help},
+		{"help", _ourhelp},
 		{"history", our_hist},
-		{"setenv", set_env},
+		{"setenv", our_setenv},
 		{"unsetnev", unset_env},
 		{"cd", our_cd},
 		{"alias", mim_alias},
@@ -63,7 +63,7 @@ int find_builtin(info_t *info)
 	};
 
 	for (x = 0; builtint[x].type; x++)
-		if (string_cmp(info->av[0], builtint[x].type) == 0)
+		if (_strcmp(info->av[0], builtint[x].type) == 0)
 		{
 			info->line_count++;
 			built_in_ret = builtint[x].func(info);
@@ -88,26 +88,26 @@ void find_cmd(info_t *info)
 		info->line_count++;
 		info->linecount_flag = 0;
 	}
-	for (x = 0; y = 0; info->arg[x]; x++)
-		if (!is_delimeter(info->arg[x], " \t\n"))
+	for (x = 0, y = 0; info->arg[x]; x++)
+		if (!delimeter(info->arg[x], " \t\n"))
 			y++;
-	if (!k)
+	if (!y)
 		return;
 	path = find_path(info, our_getenv(info, "PATH="), info->av[0]);
 	if (path)
 	{
 		info->path = path;
-		fork_cmd(info);
+		for_cmd(info);
 	}
 	else
 	{
 		if ((interactive(info) || our_getenv(info, "PATH=")
-			|| info->av[0][0] == '/') && is_cmd(info, info->av[0]))
+			|| info->av[0][0] == '/') && exec_cmd(info, info->av[0]))
 			for_cmd(info);
 		else if (*(info->arg) != '\n')
 		{
 			info->status = 127;
-			print_errs(info, "not foubd\n");
+			print_errs(info, "not found\n");
 		}
 	}
 }
@@ -144,7 +144,7 @@ void for_cmd(info_t *info)
 		wait(&(info->status));
 		if (WIFEXITED(info->status))
 		{
-			info->status - WEXITSTATUS(info->status);
+			info->status = WEXITSTATUS(info->status);
 			if (info->status == 126)
 				print_errs(info, "Permission denied\n");
 		}

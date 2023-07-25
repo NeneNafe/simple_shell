@@ -10,6 +10,8 @@
 #include <sys/stat.h>
 #include <limits.h>
 #include <fcntl.h>
+#include <errno.h>
+#include <stddef.h>
 
 /* BUFFERS */
 #define READ_BUF_SIZE 1024
@@ -107,7 +109,7 @@ typedef struct builtin
 {
 	char *type;
 	int (*func)(info_t *);
-} builtint;
+} builtin_table;
 
 
 /* for shell loop */
@@ -157,7 +159,7 @@ void free_str(char **ss);
 void *our_realloc(void *ptr, unsigned int old, unsigned int newsize);
 
 /* mem.c */
-int be_fee(void **ptr);
+int be_free(void **ptr);
 
 /* atoi.c */
 int interactive(info_t *info);
@@ -174,7 +176,7 @@ void rm_comments(char *buf);
 
 /* builtincmd.c */
 int our_hist(info_t *info);
-int sets_alias(info_t *info, char s);
+int sets_alias(info_t *info, char *s);
 int our_alias(info_t *info, char *s);
 int prints_alias(list_t *node);
 int mim_alias(info_t *info);
@@ -218,7 +220,7 @@ int renumber_hist(info_t *info);
 /* lists.c */
 list_t *add_node(list_t **head, const char *str, int num);
 list_t *add_node_end(list_t **head, const char *s, int num);
-size_t print_list(const list_t *h);
+size_t our_list_str(const list_t *h);
 int delete_node(list_t **head, unsigned int index);
 void free_list(list_t **head_ptr);
 
@@ -234,6 +236,6 @@ int is_chain(info_t *info, char *buff, size_t *ptr);
 void check_chain(info_t *info, char *buf, size_t *ptr, size_t j, size_t len);
 int replaces_alias(info_t *info);
 int replaces_vars(info_t *info);
-int replae_string(char **old, char *new);
+int replace_string(char **old, char *new);
 
 #endif

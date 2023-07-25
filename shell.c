@@ -8,7 +8,7 @@
  */
 int main(int argc, char **argv)
 {
-	infor_t info[] = { INFO_init };
+	info_t info[] = { INFO_INIT };
 	int fd = 2;
 
 	asm ("mov %1, %0\n\t"
@@ -17,10 +17,10 @@ int main(int argc, char **argv)
 			: "r" (fd));
 	if (argc == 2)
 	{
-		fd = open(argv[1], 0_RDONLY);
+		fd = open(argv[1], O_RDONLY);
 		if (fd == -1)
 		{
-			if (errno == EACCESS)
+			if (errno == EACCES)
 				exit(126);
 			if (errno == ENOENT)
 			{
@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 		}
 		info->readfd = fd;
 	}
-	populate_env_list(info);
+	pop_env_list(info);
 	read_hist(info);
 	shell_loop(info, argv);
 	return (EXIT_SUCCESS);

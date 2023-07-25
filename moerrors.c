@@ -12,7 +12,7 @@ int our_erratoi(char *str)
 
 	if (*str == '+')
 		str++; /* TODO: why does this make main return 255? */
-	for (j = 0; str[j] != '\0', j++)
+	for (j = 0; str[j] != '\0'; j++)
 	{
 		if (str[j] >= '0' && str[j] <= '9')
 		{
@@ -37,7 +37,7 @@ void print_errs(info_t *info, char *serr)
 {
 	_nputs(info->fname);
 	_nputs(": ");
-	prints_dec(info->ine_count, STDERR_FILENO);
+	prints_dec(info->line_count, STDERR_FILENO);
 	_nputs(": ");
 	_nputs(info->av[0]);
 	_nputs(": ");
@@ -106,9 +106,9 @@ char *convert_num(long int num, int base, int flags)
 	*p = '\0';
 
 	do {
-		*--p = arr[n % baase];
+		*--p = arr[n % base];
 		n /= base;
-	} while (n !n = 0);
+	} while (n != 0);
 
 	if (sign)
 		*--p = sign;
@@ -125,7 +125,7 @@ void rm_comments(char *buf)
 	int j;
 
 	for (j = 0; buf[j] != '\0'; j++)
-		if (buf[j] == '#' && (!j || buf[j - 1] == ''))
+		if (buf[j] == '#' && (!j || buf[j - 1] == ' '))
 		{
 			buf[j] = '\0';
 			break;

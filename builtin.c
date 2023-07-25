@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * our_exit - thr program exits the shell
@@ -11,7 +11,7 @@ int our_exit(info_t *info)
 
 	if (info->av[1]) /* where there is an exit argument */
 	{
-		checker = err_atoi(info->av[1]);
+		checker = our_erratoi(info->av[1]);
 		if (checker == -1)
 		{
 			info->status = 2;
@@ -20,10 +20,10 @@ int our_exit(info_t *info)
 			_cputchar('\n');
 			return (1);
 		}
-		info->num_err = err_atoi(info->av[1]);
+		info->err_num = our_erratoi(info->av[1]);
 		return (-2);
 	}
-	info->num_err = -1;
+	info->err_num = -1;
 	return (-2);
 }
 
@@ -37,19 +37,19 @@ int our_cd(info_t *info)
 	char *str, *dir, buffer[1024];
 	int chld_dir;
 
-	str = get_cwd(buffer, 1024);
+	str = getcwd(buffer, 1024);
 	if (!str)
-		_nputs("TODO: >>get_cwd failure emsg here<<\n");
+		_nputs("TODO: >>getcwd failure emsg here<<\n");
 	if (!info->av[1])
 	{
 		dir = our_getenv(info, "HOME=");
 		if (!dir)
 			chld_dir = /* TODO: what should this be? */
-			       our_chdir((dir = our_getenv(info, "PWD=")) ? dir : "/");
+			       chdir((dir = our_getenv(info, "PWD=")) ? dir : "/");
 		else
-		chld_dir = our_chdir(dir);
+		chld_dir = chdir(dir);
 	}
-	else if (string_cmp(info->av[1], "-") == 0)
+	else if (_strcmp(info->av[1], "-") == 0)
 	{
 		if (!our_getenv(info, "OLDPWD="))
 		{
@@ -59,10 +59,10 @@ int our_cd(info_t *info)
 		}
 		_puts(our_getenv(info, "OLDPWD=")), _cputchar('\n');
 		chld_dir = /* TODO: what should this be? */
-			our_chdir((dir = our_getenv(info, "OLDPWD=")) ? dir : "/");
+			chdir((dir = our_getenv(info, "OLDPWD=")) ? dir : "/");
 	}
 	else
-		chld_dir = our_chdir(info->av[1]);
+		chld_dir = chdir(info->av[1]);
 	if (chld_dir == -1)
 	{
 		print_errs(info, "cannot cd to ");
@@ -70,8 +70,8 @@ int our_cd(info_t *info)
 	}
 	else
 	{
-		our_setenv(info, "OLDPWD", our_getenv(info, "PWD="));
-		our_setenv(info, "PWD", get_cwd(buffer, 1024));
+		_setenv(info, "OLDPWD", our_getenv(info, "PWD="));
+		_setenv(info, "PWD", getcwd(buffer, 1024));
 	}
 	return (0);
 }
