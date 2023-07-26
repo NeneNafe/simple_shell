@@ -47,7 +47,7 @@ int our_unsetenv(info_t *info, char *var)
 }
 
 /**
- * our_setenv - initializes a news environ var
+ * _setenv - initializes a news environ var
  * @info: Struct info
  * @var: the str envi var property
  * @value: the variable value
